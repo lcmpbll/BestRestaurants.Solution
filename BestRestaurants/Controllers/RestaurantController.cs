@@ -18,9 +18,9 @@ namespace BestRestaurants.Controllers
 
     public ActionResult Index()
     {
-      List<Restaurant> model = _db.Restaurant.Include(restaurant => restaurant.Cuisine).ToList();
-      ViewBag.PageTitle = "View All Restaurants";
-      return View(model);
+      
+      
+      return View(_db.Restaurant.ToList());
     }
 
     public ActionResult Create()
@@ -39,9 +39,13 @@ namespace BestRestaurants.Controllers
 
     public ActionResult Details(int id)
     {
-      Restaurant thisRestaurant = _db.Restaurant.FirstOrDefault(restaurant => restaurant.RestaurantId == id);
+      Restaurant thisRestaurant = _db.Restaurant
+        .Include(restaraunt => restaraunt.JoinEntities)
+        .ThenInclude(join => join.Cuisine)
+        .FirstOrDefault(restaurant => restaurant.RestaurantId == id);
       return View(thisRestaurant);
     }
+
     public ActionResult Edit(int id)
     {
       var thisRestaurant = _db.Restaurant.FirstOrDefault(restaurant => restaurant.RestaurantId == id);
@@ -71,5 +75,5 @@ namespace BestRestaurants.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
-  }
-}
+   }
+ }
