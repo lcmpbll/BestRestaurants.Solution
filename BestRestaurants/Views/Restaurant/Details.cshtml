@@ -10,6 +10,20 @@
 <h3>@Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)</h3>
 <p>@Html.DisplayNameFor(model => model.Description): @Html.DisplayFor(model => model.Description)</p>
 <hr />
+@if(@Model.JoinEntities.Count == 0)
+{
+  <p>This Restaurant's Cusine is unknown</p>
+}
+else
+{
+  <h4>Cusines Served:</h4>
+  <ul>
+    @foreach(var join in Model.JoinEntities)
+    {
+      <li>@join.Cuisine.Name</li>
+    }
+  </ul>
+}
 <p class="btn btn-primary">@Html.ActionLink("Edit Restaurant", "Edit", new { id = Model.RestaurantId })</p>
 <p class="btn btn-primary">@Html.ActionLink("Delete Restaurant", "Delete", new { id = Model.RestaurantId })</p>
 <p class="btn btn-primary">@Html.ActionLink("Back to Restaurant List", "Index")</p>
