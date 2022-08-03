@@ -2,11 +2,20 @@
   Layout = "_Layout";
 }
 
-@model BestRestaurants.Models.Cuisine
+@model BestRestaurants.Models.Cuisine;
+@using BestRestaurants.Models;
+
 
 <h2>Cuisine Details</h2>
 <hr />
 <h3>@Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)<h3>
+<h4>The Best @Html.DisplayFor(model => model.Name) Restaraunts:</h4>
+<ul>
+@foreach (var join in Model.JoinEntities)
+{
+  <li>@Html.ActionLink($"{join.Restaurant.Name}", "Details", "Restaurant", new { id = join.RestaurantId})</li>
+}
+</ul>
 <p class="btn btn-primary">@Html.ActionLink("Edit Cuisine", "Edit", new { id = Model.CuisineId })</p>
 <p class="btn btn-primary">@Html.ActionLink("Delete Cuisine", "Delete", new { id = Model.CuisineId })</p>
 <p class="btn btn-primary">@Html.ActionLink("Back to Cuisine List", "Index")</p>
